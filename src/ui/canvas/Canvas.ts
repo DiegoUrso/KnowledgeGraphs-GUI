@@ -92,7 +92,7 @@ export default abstract class Canvas<G extends Graph, N extends NodeElement, E e
         this.edgesMap.get(nodesId)!.push(edge);
         if (!newEdge) {
             this.setOffsets(nodesId);
-            edge.editLabel(this.onChange);
+            edge.editLabel(this.onChange, this.graph instanceof ModelGraph ? true : false);
         }
         this.onChange(false);
     }
@@ -277,11 +277,47 @@ export class ModelCanvas extends Canvas<ModelGraph, NodeElement, EdgeElement> {
 }
 
 export class QueryCanvas extends Canvas<QueryGraph, NodeElement, EdgeElement> {
+
+    private infoContainer: HTMLElement;
+
+    constructor(
+        container: string,
+        graph: QueryGraph,
+        onChange: (isSaved: boolean) => void
+    ) {
+        super(container, graph, onChange);
+        this.infoContainer = document.querySelector(".info-container") as HTMLElement;
+        this.initializeInfoContainer();
+    }
+
     createNodeElement(node: any): NodeElement {
         return new NodeElement(node);
     }
 
     createEdgeElement(edge: any): EdgeElement {
         return new EdgeElement(edge);
+    }
+
+    hideCanvas() {
+        super.hideCanvas();
+        this.infoContainer.hidden = true;
+    }
+
+    showCanvas() {
+        super.showCanvas();
+        this.infoContainer.hidden = false;
+    }
+
+    private initializeInfoContainer() {
+        const button = this.infoContainer.querySelector(".info-container__button") as HTMLButtonElement;
+        const content = this.infoContainer.querySelector(".info-container__content") as HTMLDivElement;
+        button.addEventListener("click", () => {
+            content.hidden = !content.hidden;
+        });
+        document.addEventListener("click", (event) => {
+            if (!this.infoContainer.contains(event.target as HTMLElement) && !content.hidden) {
+                content.hidden = true;
+            }
+        });
     }
 }

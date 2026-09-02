@@ -39,6 +39,23 @@
       </div>
       <div class="query-viewer__table"></div>
     </div>
+    <div class="info-container" hidden>
+      <div class="info-container__button">
+        i
+      </div>
+      <div class="info-container__content">
+        <strong>Navigational Patterns</strong>
+        <p>
+          Type special characters directly on the edge labels to create advanced navigational patterns:
+        </p>
+        <ul>
+          <li><strong>Sequence:</strong> Use a space for consecutive jumps (e.g. <code>KNOWS WORKS</code>)</li>
+          <li><strong>OR Condition:</strong> Use <code>|</code> to match either relation (e.g. <code>KNOWS|FRIEND</code>)</li>
+          <li><strong>Variable Length:</strong> Use <code>*</code> for zero or more jumps (e.g. <code>FRIEND*</code>)</li>
+          <li><strong>Exact Jumps:</strong> Use <code>^</code> followed by a number (e.g. <code>FRIEND^3</code>)</li>
+        </ul>
+      </div>
+    </div>
     <!-- Settings -->
     <div id="settings-modal" class="settings-modal" hidden>
         <div class="settings-modal__content">
