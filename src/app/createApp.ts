@@ -229,6 +229,7 @@ export default async function createApp() {
             console.table(result);
             saveQueryState(result, query);
             render(result, state.lastQuery);
+            loading(false); // Early loading stop before switching mode
             tabbar.enableButton(ModeType.Result);
             tabbar.clickButton(ModeType.Result);
             showToast("Query executed successfully.", "success");
@@ -241,8 +242,6 @@ export default async function createApp() {
                 }
             }
             handleQueryError(error, state.currentCanvas);
-        } finally {
-            loading(false);
         }
     }
 
