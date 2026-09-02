@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kg-gui</title>
+    <link rel="stylesheet" href="src/style.css">
+  </head>
+  <body>
+    <div class="menu">
+      <div class="menu__tabbar"></div>
+      <div class="menu__toolbar"></div>
+    </div>
+    <div class="canvas" id="model"></div>
+    <div class="canvas" id="query"></div>
+    <div class="multi" hidden>
+      <div class="multi__table"></div>
+      <div class="multi__formula">
+        <label>Formula:</label>
+        <input class="multi__input" type="text" placeholder="Example: q1 UNION (q2 JOIN q3)" />
+        <div class="multi__error"></div>
+      </div>
+      <div><b>Operators:</b> UNION, INTERSECT, DIFFERENCE, MINUS, JOIN, OPTIONAL</div>
+    </div>
+    <div class="query-viewer" hidden>
+      <div class="query-viewer__table"></div>
+      <div class="query-viewer__query">
+        <details class="query-viewer__details">
+          <summary>Query</summary>
+          <pre class="query-viewer__code"><code></code></pre>
+        </details>
+      </div>
+    </div>
+    <div class="floating-container" hidden>
+      <div class="floating-container__header">
+        <span class="floating-container__title">Query Results</span>
+        <button class="floating-container__button">—</button>
+      </div>
+      <div class="query-viewer__table"></div>
+    </div>
+    <!-- Settings -->
+    <div id="settings-modal" class="settings-modal" hidden>
+        <div class="settings-modal__content">
+            <div class="settings-modal__header">
+                <h2>Settings</h2>
+                <button class="settings-modal__close-btn">✕</button>
+            </div>
+            <div class="settings-modal__body"></div>
+        </div>
+    </div>
+    <!-- Toast -->
+    <div id="toast-container"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

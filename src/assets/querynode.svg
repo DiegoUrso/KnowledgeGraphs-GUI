@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <circle
+    cx="64"
+    cy="64"
+    r="48"
+    fill="#FFF7A8"
+    stroke="black"
+    stroke-width="5"
+    stroke-dasharray="15 5"
+  />
+</svg>
