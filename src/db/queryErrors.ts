@@ -13,6 +13,19 @@ export class QueryValidationError extends Error {
     }
 }
 
+export class QueryNavegationalError extends Error {
+    public readonly errorEdge: string | undefined;
+
+    constructor(msg: string, errorEdge?: string) {
+        super(msg);
+
+        this.name = "QueryNavegationalError";
+        this.errorEdge = errorEdge;
+
+        Object.setPrototypeOf(this, QueryNavegationalError.prototype);
+    }
+}
+
 export class QueryTimeoutError extends Error {
     constructor(msg: string) {
         super(msg);

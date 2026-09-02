@@ -1,3 +1,5 @@
+import { QueryNavegationalError } from "./queryErrors";
+
 export interface GraphQuery {
     edges: [string, string, string, boolean][];
     vars: string[];
@@ -53,11 +55,18 @@ export async function graphQuery(q: GraphQuery) {
                 const currentDst = isLastToken ? `(${dstVar}:Node)` : '()';
                 const match = token.match(/^([A-Za-z0-9_\|]+)(\*)?(?:\^(\d+))?$/);
                 if (!match) {
-                    pathPattern += `-[:\`${escapeStr(token)}\`]->${currentDst}`;
+                    if (/[*^|]/.test(token)) {
+                        throw new QueryNavegationalError(`Invalid path expression in label: ${lbl}.`, lbl);
+                    }
+                    pathPattern += `-[:\`${escapeStr(token)}\`]${arrow}${currentDst}`;
                 } else {
                     const baseTypes = match[1];
                     const isStar = !!match[2];
                     const nth = match[3];
+
+                    if (baseTypes.startsWith('|') || baseTypes.endsWith('|') || baseTypes.includes('||')) {
+                        throw new QueryNavegationalError(`Invalid path expression in label: ${lbl}.`, lbl);
+                    }
                     
                     const cypherTypes = baseTypes.split('|').map(t => `\`${escapeStr(t)}\``).join('|');
                     let quant = "";

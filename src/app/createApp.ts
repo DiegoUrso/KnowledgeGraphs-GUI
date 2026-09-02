@@ -3,7 +3,7 @@ import Tabbar, { ModeType } from "@/ui/controls/Tabbar";
 import Canvas, { ModelCanvas, QueryCanvas } from "@/ui/canvas/Canvas";
 import Graph, { ModelGraph, QueryGraph } from "@/graph/Graph";
 import GraphDB from "@/db/db";
-import { QueryTimeoutError, QueryValidationError } from "@/db/queryErrors";
+import { QueryNavegationalError, QueryTimeoutError, QueryValidationError } from "@/db/queryErrors";
 import QueryViewer, { FloatingQueryViewer } from "@/ui/query/QueryViewer";
 import downloadFile, { createZipFile } from "@/utils/download";
 import getGraphData, { getMultipleGraphData } from "@/utils/filePicker";
@@ -233,6 +233,13 @@ export default async function createApp() {
             tabbar.clickButton(ModeType.Result);
             showToast("Query executed successfully.", "success");
         } catch (error: unknown) {
+            if (error instanceof QueryNavegationalError) {
+                if (error.errorEdge) {
+                    state.currentCanvas.getEdges().forEach(edge => {
+                        if (edge.getLabelText() === error.errorEdge) edge.showWarning();
+                    });
+                }
+            }
             handleQueryError(error, state.currentCanvas);
         } finally {
             loading(false);
