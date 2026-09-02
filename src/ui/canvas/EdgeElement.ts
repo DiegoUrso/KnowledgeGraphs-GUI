@@ -232,7 +232,7 @@ export class QueryEdgeElement extends EdgeElement {
     }
 
     setLabelText(text: string) {
-        const newText = text.replaceAll("?", "");
+        const newText = text.replaceAll("?", "").replaceAll("|", "").replaceAll("*", "").replaceAll("^", "").replaceAll(" ", "_");
         this.label.text('?'+newText);
         this.centerLabel();
     }
