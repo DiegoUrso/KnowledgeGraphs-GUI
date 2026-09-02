@@ -4,6 +4,7 @@ import NodeElement from "@/ui/canvas/NodeElement";
 import EdgeElement from "@/ui/canvas/EdgeElement";
 import type Canvas from "@/ui/canvas/Canvas";
 import type Graph from "@/graph/Graph";
+import { ModelCanvas } from "@/ui/canvas/Canvas";
 
 export const Context = {
     EditLabel: "Edit Label",
@@ -110,7 +111,11 @@ export default class ContextMenu {
             }
         }));
         buttons.push(this.createButton(Context.EditLabel, () => {
-            this.currentObj.editLabel(this.canvas.onChange);
+            if (this.currentObj instanceof EdgeElement && this.canvas instanceof ModelCanvas) {
+                this.currentObj.editLabel(this.canvas.onChange, true);
+            } else {
+                this.currentObj.editLabel(this.canvas.onChange);
+            }
         }));
         buttons.push(this.createButton(Context.Delete, () => {
             if (this.currentObj instanceof NodeElement) {

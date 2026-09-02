@@ -14,12 +14,14 @@ export default abstract class GraphElement extends Konva.Group {
         return this.label.text().replaceAll("?", "");
     }
 
-    setLabelText(text: string) {
-        this.label.text(text.replaceAll("?", ""));
+    setLabelText(text: string, format: boolean = false) {
+        text = text.replaceAll("?", "").trim();
+        const formattedText = format ? text.replaceAll("|", "").replaceAll("*", "").replaceAll("^", "").replaceAll(" ", "_") : text;
+        this.label.text(formattedText);
         this.centerLabel();
     }
 
-    editLabel(onChange: (isSaved: boolean) => void) {
+    editLabel(onChange: (isSaved: boolean) => void, format: boolean = false) {
         const stage = this.getStage() as Konva.Stage;
         this.label.hide();
 
@@ -44,7 +46,7 @@ export default abstract class GraphElement extends Konva.Group {
                 if (newText !== this.getLabelText()) {
                     onChange(false);
                 } 
-                this.setLabelText(newText);
+                this.setLabelText(newText, format);
             }
             this.label.show();
             input.remove();
